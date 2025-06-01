@@ -6,7 +6,10 @@ set(OpenCV_DIR
 )
 find_package(OpenCV REQUIRED)
 
-add_executable(industrial_robotics src/main.cpp)
+add_executable(industrial_robotics 
+    src/main.cpp
+    src/process.cpp
+)
 
 target_include_directories(industrial_robotics
     PRIVATE
