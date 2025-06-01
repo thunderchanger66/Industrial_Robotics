@@ -3,5 +3,9 @@
 
 int main(int, char**)
 {
-    std::cout << "Hello, from industrial_robotics!\n";
+    cv::Mat img = cv::imread("E:\\STUDY\\Junior.down\\Industrial_Robotics\\resources\\dog.jpg");
+
+    cv::imshow("dog", img);
+    cv::waitKey(0);
+    return 0;
 }
