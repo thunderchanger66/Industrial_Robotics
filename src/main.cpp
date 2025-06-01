@@ -5,7 +5,7 @@
 int main()
 {
     process test;
-    test.Process();
+    test.getContours();
 
     return 0;
 }

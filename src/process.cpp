@@ -1,5 +1,6 @@
 #include "process.hpp"
 #include <iostream>
+#include <vector>
 
 process::process()
 {
@@ -19,7 +20,7 @@ process::~process()
     cv::destroyAllWindows();
 }
 
-void process::Process()
+void process::getContours()
 {
     // Turn into gray
     cv::Mat gray;
@@ -33,7 +34,7 @@ void process::Process()
     //cv::waitKey(0);
 
     // Find contours
-    std::vector<std::vector<cv::Point>> contours;
+    //std::vector<std::vector<cv::Point>> contours;
     /*----------
     Vec4i 是长度为4的向量，表示每个轮廓的：
     hierarchy[i][0]：下一个轮廓的索引
@@ -42,11 +43,31 @@ void process::Process()
     hierarchy[i][3]：父轮廓的索引
     ----------*/
     std::vector<cv::Vec4i> hierarchy;// 保存轮廓层级关系
-    cv::findContours(binary, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+    cv::findContours(binary, Contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);// 查找所有（包括内层）轮廓
     // Show contours
     cv::Mat cont = img.clone();
-    for(size_t i = 0; i < contours.size(); i++)
-        cv::drawContours(cont, contours, i, cv::Scalar(0, 0, 255), 2);
+    for(size_t i = 0; i < Contours.size(); i++)
+        cv::drawContours(cont, Contours, i, cv::Scalar(0, 0, 255), 2);
     cv::imshow("Contours", cont);
     cv::waitKey(0);
+}
+
+void process::gettheCoutours1()
+{
+
+}
+
+void process::gettheCoutours2()
+{
+
+}
+
+std::vector<std::vector<cv::Point>> process::gettheCoutours(int type)
+{
+    if(type)
+        gettheCoutours1();
+    else
+        gettheCoutours2();
+
+    return theCoutours;
 }
