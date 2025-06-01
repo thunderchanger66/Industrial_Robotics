@@ -1,0 +1,76 @@
+%%%
+  VERSION:1
+  LANGUAGE:ENGLISH
+%%%
+
+MODULE Plan
+ 
+  PERS tooldata Tooldata_1:=[FALSE,[[-118.38724678757,1203.07055481821,1096.46495281502],[6.12303176911189E-17,1,0,0]],[1,[0,0,1],[1,0,0,0],0,0,0]];
+  PERS wobjdata Worbcyl:=[TRUE,TRUE,"ROB_1",[[0,0,0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]];
+  CONST robtarget p100:=[[1313.40,-511.82,1589.56],[0.690096,0.203781,0.665397,0.198716],[-1,-1,1,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget p110start:=[[1329.31,-432.28,1551.26],[0.690105,0.203781,0.665391,0.198705],[-1,-1,1,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  VAR num height100:=0;
+  VAR num heightline:=0;
+  CONST robtarget pHOME:=[[809.57,697.37,1107.27],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pstart1:=[[809.58,800.88,948.47],[0.00139325,-0.491074,0.870801,-0.0234739],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pstart11:=[[1313.40,-441.66,1472.21],[0.690099,0.203786,0.665394,0.198708],[-1,-1,1,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pstart21:=[[1313.40,-441.66,1472.21],[0.690099,0.203787,0.665394,0.198708],[-1,-1,1,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST jointtarget jpos10:=[[47.4198,5.07013,21.4385,-2.89901,64.1983,-10.1362],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pleft:=[[809.41,977.30,974.35],[0.00139645,-0.491079,0.870798,-0.0234725],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget phome10:=[[809.57,697.37,1107.27],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget phome20:=[[809.79,872.17,984.75],[0.00141597,-0.491029,0.870826,-0.0234868],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pfire:=[[807.33,977.29,1107.26],[0.00138473,-0.491072,0.870802,-0.0234732],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  VAR num ntestfk:=0;
+  VAR num Length:=0;
+  VAR num Height:=0;
+  VAR num Pas:=0;
+  VAR num n:=0;
+  VAR num Cycle:=0;
+  VAR num ntime:=0;
+  CONST speeddata sprayspeed:=[1000,500,5000,1000];
+  VAR speeddata spray:=[1000,500,5000,1000];
+  VAR bool redo:=TRUE;
+  CONST robtarget start:=[[809.56,697.36,1107.25],[0.00137681,-0.491081,0.870796,-0.0234835],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pSTART:=[[805.17,909.09,994.71],[0.00138056,-0.491083,0.870795,-0.0234862],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  CONST robtarget pSTOP:=[[809.56,697.36,1107.25],[0.00137706,-0.491081,0.870796,-0.0234857],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+  
+  PROC main()
+
+  IF redo = TRUE THEN
+  Plann;
+   ELSE
+   MoveL pHOME, v1000, z10, tool0;
+       EXIT;
+	ENDIF
+  ENDPROC
+  
+  PROC Plann()
+                                Cycle := 1;
+		Length := 200;
+		Height := 200;
+		Pas := 10;
+		spray.v_tcp:=300;
+		n := Abs(Height / (Pas + Pas)) + 1;
+		MoveL pHOME, v300, z10, tool0;
+		WHILE redo DO
+			ntime := 0;
+			WHILE ntime < cycle DO
+				reg1 := 1;
+				MoveL pSTART, v200, fine, tool0;
+				WHILE reg1 <= n DO
+					MoveL Offs(CRobT(),0,Length,0), spray, fine, tool0;
+					MoveL Offs(CRobT(),0,0,Pas), spray, fine, tool0;
+					MoveL Offs(CRobT(),0,-Length,0),spray, fine, tool0;
+					MoveL Offs(CRobT(),0,0,Pas), spray, fine, tool0;
+					reg1 := reg1 + 1;
+				ENDWHILE
+				nTime := nTime + 1;
+			ENDWHILE
+			TPReadNum Cycle, "Cycles to move (0 exit)=?";
+			IF Cycle = 0 THEN
+				redo := FALSE;
+			ENDIF
+		ENDWHILE
+		MoveL pHOME, v300, z10, tool0;
+		ENDPROC
+ENDMODULE

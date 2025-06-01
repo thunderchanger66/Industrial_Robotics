@@ -1,0 +1,188 @@
+MODULE BASE (SYSMODULE, NOSTEPIN, VIEWONLY)
+
+ ! System module with basic predefined system data
+ !************************************************1. 将mainmodule下面的main函数改名；2.在程序编辑窗口下面pp to main；3.  ! 打手动，电机上电  4. 打开tcp追踪；5. 在示教器界面点击播放键 
+
+ ! System data tool0, wobj0 and load0
+ ! Do not translate or delete tool0, wobj0, load0
+ !PERS tooldata tool0 := [TRUE, [[0, 0, 0], [1, 0, 0, 0]],[0.001, [0, 0, 0.001],[1, 0, 0, 0], 0, 0, 0]];
+ PERS tooldata tPen := [ TRUE, [[200, 0, 30], [1, 0, 0 ,0]], [0.8, [62, 0, 17], [1, 0, 0, 0], 0, 0, 0]];
+
+ PERS wobjdata wobj0 := [FALSE, TRUE, "", [[0, 0, 0],[1, 0, 0, 0]],
+                        [[0, 0, 0],[1, 0, 0, 0]]];
+
+ PERS loaddata load0 := [0.001, [0, 0, 0.001],[1, 0, 0, 0], 0, 0, 0];
+
+
+
+
+
+CONST robtarget p10 := [ [80.57,69.37,1107.27], [0.00139266,-0.491072,0.870802,-0.0234724], [0,-1,-1,0], [9E+09,9E+09,9E+09,9E+09,9E+09,9E+09] ];
+
+CONST robtarget pSharp1 := [ [80.58,80.88,1548.47], [0.00139325,-0.491074,0.870801,-0.0234739], [0,-1,-1,0], [9E+09,9E+09,9E+09,9E+09,9E+09,9E+09] ];
+
+PERS num count := 7;
+
+
+PROC main()
+
+user_selection;
+
+IF count >= 10 THEN
+
+change_paper;
+
+! Reset count
+
+count := 0;
+
+ENDIF
+
+IF TRUE THEN
+
+sharpen_pencil;
+
+ENDIF
+
+ENDPROC
+
+
+PROC user_selection()
+
+VAR num answer;
+
+TPReadFK answer, "Select which figure to draw", "Square", "Triangle", "Quit", stEmpty, stEmpty;
+
+IF answer = 1 THEN
+
+draw_square;
+
+count := count + 1;
+
+ELSEIF answer = 2 THEN
+
+draw_triangle;
+
+count := count + 1;
+
+ELSE
+
+quit;
+
+ENDIF
+
+ENDPROC
+
+
+PROC draw_square()
+
+VAR robtarget p20;
+
+VAR robtarget p30;
+
+VAR robtarget p40;
+
+
+! Define points that give a square with the side 200 mm
+
+p20 := Offs(p10, 0, 200, 0);
+
+p30 := Offs(p10, 200, 200, 0);
+
+p40 := Offs(p10, 200, 0, 0);
+
+SingArea\Wrist;
+ConfL\Off;
+
+MoveL p10, v200, fine, tPen;
+
+MoveL p20, v200, fine, tPen;
+
+MoveL p30, v200, fine, tPen;
+
+MoveL p40, v200, fine, tPen;
+
+MoveL p10, v200, fine, tPen;
+
+ENDPROC
+
+PROC draw_triangle()
+
+VAR robtarget p20;
+
+VAR robtarget p30;
+
+! Define points for the triangle
+
+p20 := Offs(p10, 0, 200, 0);
+
+p30 := Offs(p10, 200, 100, 0);
+
+
+MoveL p10, v200, fine, tPen;
+
+MoveL p20, v200, fine, tPen;
+
+MoveL p30, v200, fine, tPen;
+
+MoveL p10, v200, fine, tPen;
+
+ENDPROC
+
+
+PROC quit()
+
+TPWrite "Good bye!";
+
+! Terminate the program
+
+EXIT;
+
+ENDPROC
+
+
+PROC change_paper()
+
+VAR num answer;
+
+TPReadFK answer, "Change the paper", "OK", stEmpty, stEmpty, stEmpty, stEmpty;
+
+ENDPROC
+
+PROC sharpen_pencil()
+
+VAR robtarget pSharp2;
+
+VAR robtarget pSharp3;
+
+pSharp2 := Offs(pSharp1, 100, 0, 0);
+
+pSharp3 := Offs(pSharp1, 120, 0, 0);
+
+! Move quickly to position in front of sharpener
+
+MoveJ pSharp1, vmax, z10, tPen;
+
+! Place pencil in sharpener
+
+MoveL pSharp2, v500, fine, tPen;
+
+! Start the sharpener
+
+!SetDO do1, 1;
+
+! Slowly move into the sharpener
+
+MoveL pSharp3, v5, fine, tPen;
+
+! Turn off sharpener
+
+!SetDO do1, 0;
+
+! Move out of sharpener
+
+MoveL pSharp1, v500, fine, tPen;
+
+ENDPROC
+
+ENDMODULE
