@@ -2,9 +2,10 @@
 #include <opencv2/opencv.hpp>
 #include "process.hpp"
 
-int main(int, char**)
+int main()
 {
     process test;
+    test.Process();
 
     return 0;
 }

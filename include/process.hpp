@@ -4,8 +4,8 @@
 class process
 {
 private:
-    cv::Mat img;
-    
+    cv::Mat img;// Raw picture
+
 public:
     process();
     void Process();
