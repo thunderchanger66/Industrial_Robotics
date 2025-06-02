@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-process::process()
+process::process(float min_dist, float curve): min_dist(min_dist), curve(curve)
 {
     // Show the raw picture
     img = cv::imread("E:\\STUDY\\Junior.down\\Industrial_Robotics\\resources\\dog.jpg");
@@ -75,13 +75,42 @@ void process::gettheCoutours1()// 等距，使用欧氏距离
     cv::Mat cont = img.clone();// 显示等距后的结果
     for(size_t i = 0; i < theContours.size(); i++)
         cv::drawContours(cont, theContours, i, cv::Scalar(255, 0, 0), 2);
-    cv::imshow("theContours", cont);
+    cv::imshow("theContours1", cont);
     cv::waitKey(0);
 }
 
 void process::gettheCoutours2()// 曲率特征
 {
+    theContours.clear();// 注意先清零
+    theContours.resize(Contours.size());// 若要使用索引访问则先要分配空间
 
+    // 匿名函数，获得夹角
+    auto calAngle = [](cv::Point2f a, cv::Point2f b, cv::Point2f c)
+    {
+        cv::Point2f ab = b - a;
+        cv::Point2f cb = b - c;// 相对的向量
+        float dot = ab.dot(cb);
+        float lenab = cv::norm(ab);
+        float lencb = cv::norm(cb);
+        return std::acos(dot / (lenab + lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
+    };
+
+    for(size_t i = 0; i < Contours.size(); i++)
+    {
+        for(size_t j = 1; j < Contours[i].size() - 1; j++)// 从第二个到倒数第二个
+        {
+            float angle = calAngle(Contours[i][j - 1], Contours[i][j], Contours[i][j + 1]);
+            float ratio = CV_PI - angle;// ratio越大，曲率越大
+            if(ratio > curve)
+                theContours[i].push_back(Contours[i][j]);
+        }
+    }
+
+    cv::Mat cont = img.clone();// 显示等距后的结果
+    for(size_t i = 0; i < theContours.size(); i++)
+        cv::drawContours(cont, theContours, i, cv::Scalar(0, 255, 0), 2);
+    cv::imshow("theContours2", cont);
+    cv::waitKey(0);
 }
 
 std::vector<std::vector<cv::Point>> process::gettheCoutours(int type)

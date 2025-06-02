@@ -4,10 +4,11 @@
 
 int main()
 {
-    process test;
+    process test(10.0f, 1.0f);
     test.getContours();
     //test.hierachytest();
     test.gettheCoutours(1);
+    test.gettheCoutours(0);
 
     return 0;
 }
