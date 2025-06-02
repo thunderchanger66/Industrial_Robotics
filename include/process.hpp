@@ -19,7 +19,7 @@ private:
     int pointNum; //总点数
 
 public:
-    process(float min_dist = 10.0f, float curve = 1.0f);
+    process(float min_dist = 10.0f, float curve = 0.1f);
     ~process();
     void getContours();
     std::vector<std::vector<cv::Point>> gettheCoutours(int type = 1);// type == 1为等距，type == 0 为曲率特征

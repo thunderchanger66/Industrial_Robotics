@@ -1,4 +1,6 @@
-CONST robtarget myPath0{450} := [
+MODULE Module1
+
+    CONST robtarget myPath0{450} := [
 [[1351.7,1.5,938.01],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]],
 [[1349.2,1.5,938.01],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]],
 [[1348.7,2,938.01],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]],
@@ -1454,3 +1456,168 @@ CONST robtarget myPath12{36} := [
 [[1359.7,29,938.01],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]],
 [[1360.2,29,938.01],[0.00139266,-0.491072,0.870802,-0.0234724],[0,-1,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]
 ];
+
+    PROC draw_path0()
+        SetDO SETPEN, 0;
+        MoveL myPath0{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath0, 1) DO
+            MoveL myPath0{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path1()
+        SetDO SETPEN, 0;
+        MoveL myPath1{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath1, 1) DO
+            MoveL myPath1{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path2()
+        SetDO SETPEN, 0;
+        MoveL myPath2{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath2, 1) DO
+            MoveL myPath2{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path3()
+        SetDO SETPEN, 0;
+        MoveL myPath3{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath3, 1) DO
+            MoveL myPath3{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path4()
+        SetDO SETPEN, 0;
+        MoveL myPath4{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath4, 1) DO
+            MoveL myPath4{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path5()
+        SetDO SETPEN, 0;
+        MoveL myPath5{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath5, 1) DO
+            MoveL myPath5{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path6()
+        SetDO SETPEN, 0;
+        MoveL myPath6{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath6, 1) DO
+            MoveL myPath6{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path7()
+        SetDO SETPEN, 0;
+        MoveL myPath7{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath7, 1) DO
+            MoveL myPath7{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path8()
+        SetDO SETPEN, 0;
+        MoveL myPath8{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath8, 1) DO
+            MoveL myPath8{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path9()
+        SetDO SETPEN, 0;
+        MoveL myPath9{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath9, 1) DO
+            MoveL myPath9{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path10()
+        SetDO SETPEN, 0;
+        MoveL myPath10{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath10, 1) DO
+            MoveL myPath10{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path11()
+        SetDO SETPEN, 0;
+        MoveL myPath11{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath11, 1) DO
+            MoveL myPath11{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    PROC draw_path12()
+        SetDO SETPEN, 0;
+        MoveL myPath12{1}, v50, z5, AW_Gun;
+        WaitTime 1;
+        SetDO SETPEN, 1;
+        FOR i FROM 2 TO Dim(myPath12, 1) DO
+            MoveL myPath12{i}, v50, z5, AW_Gun;
+        ENDFOR
+        WaitTime 0.5;
+    ENDPROC
+    
+    PROC main()
+        SetDO SETPEN, 0;
+        WaitTime 1;
+        draw_path0;
+        WaitTime 0.5;
+        draw_path1;
+        WaitTime 0.5;
+        draw_path2;
+        WaitTime 0.5;
+        draw_path3;
+        WaitTime 0.5;
+        draw_path4;
+        WaitTime 0.5;
+        draw_path5;
+        WaitTime 0.5;
+        draw_path6;
+        WaitTime 0.5;
+        draw_path7;
+        WaitTime 0.5;
+        draw_path8;
+        WaitTime 0.5;
+        draw_path9;
+        WaitTime 0.5;
+        draw_path10;
+        WaitTime 0.5;
+        draw_path11;
+        WaitTime 0.5;
+        draw_path12;
+        WaitTime 0.5;
+        SetDO SETPEN, 0;
+    ENDPROC
+
+ENDMODULE

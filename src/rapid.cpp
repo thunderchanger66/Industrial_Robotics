@@ -5,7 +5,7 @@
 
 void rapid::toTXT()
 {
-    std::vector<std::vector<cv::Point>> theContours = gettheCoutours(1);// 获得采样后的点
+    std::vector<std::vector<cv::Point>> theContours = gettheCoutours(0);// 获得采样后的点
     
     for(size_t i = 0; i < theContours.size(); i++)
     {
