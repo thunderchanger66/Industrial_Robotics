@@ -17,6 +17,7 @@ private:
     void gettheCoutours2();// 曲率特征
 
     int pointNum; //总点数
+    cv::Mat binary;
 
 public:
     process(float min_dist = 10.0f, float curve = CV_PI / 2);// 调试角度，先测试45度；90度；180度
