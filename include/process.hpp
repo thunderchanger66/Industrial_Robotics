@@ -16,10 +16,15 @@ private:
     void gettheCoutours1();// 等距
     void gettheCoutours2();// 曲率特征
 
+    int pointNum; //总点数
+
 public:
     process(float min_dist = 10.0f, float curve = 1.0f);
     ~process();
     void getContours();
     std::vector<std::vector<cv::Point>> gettheCoutours(int type = 1);// type == 1为等距，type == 0 为曲率特征
     void hierachytest();// 测试轮廓顺序
+    void set_min_dist(float num) { min_dist = num; }
+    void set_curve(float num) { curve = num; }
+    int getpointNum() const { return pointNum; }
 };

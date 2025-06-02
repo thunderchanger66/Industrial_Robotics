@@ -9,6 +9,7 @@ find_package(OpenCV REQUIRED)
 add_executable(industrial_robotics 
     src/main.cpp
     src/process.cpp
+    src/rapid.cpp
 )
 
 target_include_directories(industrial_robotics

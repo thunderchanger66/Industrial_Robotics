@@ -53,6 +53,7 @@ void process::getContours()
 
 void process::gettheCoutours1()// 等距，使用欧氏距离
 {
+    pointNum = 0;
     theContours.clear();// 注意先清零
     theContours.resize(Contours.size());// 若要使用索引访问则先要分配空间
     for(size_t i = 0; i < Contours.size(); i++)
@@ -69,8 +70,10 @@ void process::gettheCoutours1()// 等距，使用欧氏距离
             {
                 theContours[i].push_back(Contours[i][j]);
                 sum = 0.0f;
+                pointNum++;
             }
         }
+        pointNum++;// 由于每个轮廓的第一个点默认加入，所以这里也要++
     }
     cv::Mat cont = img.clone();// 显示等距后的结果
     for(size_t i = 0; i < theContours.size(); i++)
@@ -81,6 +84,7 @@ void process::gettheCoutours1()// 等距，使用欧氏距离
 
 void process::gettheCoutours2()// 曲率特征
 {
+    pointNum = 0;
     theContours.clear();// 注意先清零
     theContours.resize(Contours.size());// 若要使用索引访问则先要分配空间
 
@@ -102,7 +106,10 @@ void process::gettheCoutours2()// 曲率特征
             float angle = calAngle(Contours[i][j - 1], Contours[i][j], Contours[i][j + 1]);
             float ratio = CV_PI - angle;// ratio越大，曲率越大
             if(ratio > curve)
+            {
                 theContours[i].push_back(Contours[i][j]);
+                pointNum++;
+            }
         }
     }
 
