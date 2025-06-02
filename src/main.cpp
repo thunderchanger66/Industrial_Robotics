@@ -6,6 +6,8 @@ int main()
 {
     process test;
     test.getContours();
+    //test.hierachytest();
+    test.gettheCoutours(1);
 
     return 0;
 }

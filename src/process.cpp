@@ -42,22 +42,44 @@ void process::getContours()
     hierarchy[i][2]：第一个子轮廓的索引
     hierarchy[i][3]：父轮廓的索引
     ----------*/
-    std::vector<cv::Vec4i> hierarchy;// 保存轮廓层级关系
     cv::findContours(binary, Contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);// 查找所有（包括内层）轮廓
     // Show contours
     cv::Mat cont = img.clone();
     for(size_t i = 0; i < Contours.size(); i++)
         cv::drawContours(cont, Contours, i, cv::Scalar(0, 0, 255), 2);
     cv::imshow("Contours", cont);
+    //cv::waitKey(0);
+}
+
+void process::gettheCoutours1()// 等距，使用欧氏距离
+{
+    theContours.clear();// 注意先清零
+    theContours.resize(Contours.size());// 若要使用索引访问则先要分配空间
+    for(size_t i = 0; i < Contours.size(); i++)
+    {
+        float sum = 0.0f;
+        theContours[i].push_back(Contours[i][0]);// 存入每个轮廓第一个点
+        for(size_t j = 1; j < Contours[i].size(); j++)// 注意这里从1开始
+        {
+            float dx = Contours[i][j].x - Contours[i][j - 1].x;
+            float dy = Contours[i][j].y - Contours[i][j - 1].y;
+            float dist = std::sqrt(dx * dx + dy * dy);
+            sum+=dist;
+            if(sum >= min_dist)
+            {
+                theContours[i].push_back(Contours[i][j]);
+                sum = 0.0f;
+            }
+        }
+    }
+    cv::Mat cont = img.clone();// 显示等距后的结果
+    for(size_t i = 0; i < theContours.size(); i++)
+        cv::drawContours(cont, theContours, i, cv::Scalar(255, 0, 0), 2);
+    cv::imshow("theContours", cont);
     cv::waitKey(0);
 }
 
-void process::gettheCoutours1()
-{
-
-}
-
-void process::gettheCoutours2()
+void process::gettheCoutours2()// 曲率特征
 {
 
 }
@@ -69,5 +91,17 @@ std::vector<std::vector<cv::Point>> process::gettheCoutours(int type)
     else
         gettheCoutours2();
 
-    return theCoutours;
+    return theContours;
+}
+
+void process::hierachytest()
+{
+    for(const auto &hier : hierarchy)
+    {
+        for(size_t i = 0; i < 4; i++)
+        {
+            std::cout << hier[i] << ' ';
+        }
+        std::cout << std::endl;
+    }
 }
