@@ -6,7 +6,7 @@
 class rapid: public process
 {
 private:
-    float scale;// 比例因子，默认1mm=1pixel
+    float scale;// 比例因子，默认0.5mm=1pixel
     float base_x;// 机械臂的起始点
     float base_y;
     float base_z;

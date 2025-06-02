@@ -96,11 +96,16 @@ void process::gettheCoutours2()// 曲率特征
         float dot = ab.dot(cb);
         float lenab = cv::norm(ab);
         float lencb = cv::norm(cb);
-        return std::acos(dot / (lenab + lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
+        // 一开始这里写成lenab + lencb，导致取的点好像不是很对
+        //return std::acos(dot / (lenab * lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
+        float cos_theta = dot / (lenab * lencb + 1e-6f);
+        cos_theta = std::max(-1.0f, std::min(1.0f, cos_theta)); // 防止数值溢出
+        return std::acos(cos_theta);
     };
 
     for(size_t i = 0; i < Contours.size(); i++)
     {
+        if (Contours[i].size() < 3) continue; // 防止越界
         for(size_t j = 1; j < Contours[i].size() - 1; j++)// 从第二个到倒数第二个
         {
             float angle = calAngle(Contours[i][j - 1], Contours[i][j], Contours[i][j + 1]);
@@ -113,7 +118,7 @@ void process::gettheCoutours2()// 曲率特征
         }
     }
 
-    cv::Mat cont = img.clone();// 显示等距后的结果
+    cv::Mat cont = img.clone();// 显示曲率特征后的结果
     for(size_t i = 0; i < theContours.size(); i++)
         cv::drawContours(cont, theContours, i, cv::Scalar(0, 255, 0), 2);
     cv::imshow("theContours2", cont);
