@@ -26,6 +26,9 @@ void process::getContours()
     cv::Mat gray;
     cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
 
+    //修改添加，高斯滤波
+    cv::GaussianBlur(gray, gray, cv::Size(5, 5), 0);
+
     // 二值化
     cv::Mat binary;
     cv::threshold(gray, binary, 100, 255, cv::THRESH_BINARY_INV); //反向，白线黑底更容易提取轮廓
@@ -88,20 +91,23 @@ void process::gettheCoutours2()// 曲率特征
     theContours.clear();// 注意先清零
     theContours.resize(Contours.size());// 若要使用索引访问则先要分配空间
 
-    // 匿名函数，获得夹角
-    auto calAngle = [](cv::Point2f a, cv::Point2f b, cv::Point2f c)
-    {
-        cv::Point2f ab = b - a;
-        cv::Point2f cb = b - c;// 相对的向量
-        float dot = ab.dot(cb);
-        float lenab = cv::norm(ab);
-        float lencb = cv::norm(cb);
-        // 一开始这里写成lenab + lencb，导致取的点好像不是很对
-        //return std::acos(dot / (lenab * lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
-        float cos_theta = dot / (lenab * lencb + 1e-6f);
-        cos_theta = std::max(-1.0f, std::min(1.0f, cos_theta)); // 防止数值溢出
-        return std::acos(cos_theta);
-    };
+    // // 匿名函数，获得夹角
+    // auto calAngle = [](cv::Point2f a, cv::Point2f b, cv::Point2f c)
+    // {
+    //     cv::Point2f ab = b - a;
+    //     cv::Point2f bc = c - b;// 相对的向量 //现在改回bc正向量
+    //     // float dot = ab.dot(bc);
+    //     // float lenab = cv::norm(ab);
+    //     // float lenbc = cv::norm(bc);
+    //     float dot = ab.x * bc.x + ab.y * bc.y;// 改成这种试一下
+    //     float lenab = std::sqrt(ab.x * ab.x + ab.y * ab.y);
+    //     float lenbc = std::sqrt(bc.x * bc.x + bc.y * bc.y);
+    //     // 一开始这里写成lenab + lencb，导致取的点好像不是很对
+    //     //return std::acos(dot / (lenab * lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
+    //     float cos_theta = dot / (lenab * lenbc + 1e-6f);
+    //     cos_theta = std::max(-1.0f, std::min(1.0f, cos_theta)); // 防止数值溢出
+    //     return std::acos(cos_theta);
+    // };
 
     for(size_t i = 0; i < Contours.size(); i++)
     {
@@ -109,8 +115,10 @@ void process::gettheCoutours2()// 曲率特征
         for(size_t j = 1; j < Contours[i].size() - 1; j++)// 从第二个到倒数第二个
         {
             float angle = calAngle(Contours[i][j - 1], Contours[i][j], Contours[i][j + 1]);
-            float ratio = CV_PI - angle;// ratio越大，曲率越大
-            if(ratio > curve)
+            //float ratio = CV_PI - angle;// ratio越大，曲率越大
+            std::cout << "ANGLE" << pointNum << ":" << angle << std::endl;
+            std::cout << "POS" << Contours[i][j] << std::endl;
+            if(angle > curve)
             {
                 theContours[i].push_back(Contours[i][j]);
                 pointNum++;
@@ -145,4 +153,21 @@ void process::hierachytest()
         }
         std::cout << std::endl;
     }
+}
+
+float process::calAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c)
+{
+    cv::Point2f ab = b - a;
+    cv::Point2f bc = c - b;// 相对的向量 //现在改回bc正向量
+    // float dot = ab.dot(bc);
+    // float lenab = cv::norm(ab);
+    // float lenbc = cv::norm(bc);
+    float dot = ab.x * bc.x + ab.y * bc.y;// 改成这种试一下
+    float lenab = std::sqrt(ab.x * ab.x + ab.y * ab.y);
+    float lenbc = std::sqrt(bc.x * bc.x + bc.y * bc.y);
+    // 一开始这里写成lenab + lencb，导致取的点好像不是很对
+    //return std::acos(dot / (lenab * lencb + 1e-6));// 1e-6防止除以0，求得两向量间夹角
+    float cos_theta = dot / (lenab * lenbc + 1e-6f);
+    cos_theta = std::max(-1.0f, std::min(1.0f, cos_theta)); // 防止数值溢出
+    return std::acos(cos_theta);
 }

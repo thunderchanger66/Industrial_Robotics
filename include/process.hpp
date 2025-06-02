@@ -19,7 +19,7 @@ private:
     int pointNum; //总点数
 
 public:
-    process(float min_dist = 10.0f, float curve = 0.789f);
+    process(float min_dist = 10.0f, float curve = CV_PI / 2);// 调试角度，先测试45度；90度；180度
     ~process();
     void getContours();
     std::vector<std::vector<cv::Point>> gettheCoutours(int type = 1);// type == 1为等距，type == 0 为曲率特征
@@ -27,4 +27,5 @@ public:
     void set_min_dist(float num) { min_dist = num; }
     void set_curve(float num) { curve = num; }
     int getpointNum() const { return pointNum; }
+    float calAngle(cv::Point2f a, cv::Point2f b, cv::Point2f c);
 };
