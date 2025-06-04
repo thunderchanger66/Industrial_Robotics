@@ -20,7 +20,7 @@ private:
     cv::Mat binary; // 为了做亚像素定位放在了这里，需要灰度图
 
 public:
-    process(float min_dist = 10.0f, float curve = CV_PI / 3);// 调试角度，先测试45度；90度；180度; 现在采用60度
+    process(float min_dist = 10.0f, float angle_thresh = CV_PI / 3);// 调试角度，先测试45度；90度；180度; 现在采用60度
     ~process();
     void getContours();
     std::vector<std::vector<cv::Point>> gettheCoutours(int type = 1);// type == 1为等距，type == 0 为曲率特征
